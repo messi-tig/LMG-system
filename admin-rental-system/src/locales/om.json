@@ -1,0 +1,44 @@
+{
+  "login": "Seeni",
+  "register": "Galmee",
+  "email": "Imeelii",
+  "password": "Jecha darbii",
+  "name": "Maqaa",
+  "submit": "Ergaa",
+  "dashboard": {
+    "title": "Daashboordii Bulchaa",
+    "welcome": "Baga nagaan dhuftan, Bulchaa!",
+    "statsTitle": "Odeeffannoo Sirna",
+    "activeMerchants": "Tajaajilaa socho'aa",
+    "registeredUsers": "Fayyadamtoota galmaa'an",
+    "totalRevenue": "Galii waliigalaa",
+    "manageMerchants": "Tajaajiltoota bulchi"
+  },
+  "merchant": {
+    "title": "Galmee Daldalaa",
+    "fullName": "Maqaa Guutuu",
+    "fullNamePlaceholder": "Maqaa guutuu kee galchi",
+    "email": "Imeelii",
+    "emailPlaceholder": "Teessoo imeelii kee galchi",
+    "password": "Jecha Darbii",
+    "passwordPlaceholder": "Jecha darbii kee galchi",
+    "phone": "Lakkoofsa Bilbilaa",
+    "phonePlaceholder": "Lakkoofsa bilbilaa kee galchi",
+    "businessName": "Maqaa Daldalaa",
+    "businessNamePlaceholder": "Maqaa daldalaa kee galchi",
+    "address": "Teessoo",
+    "addressPlaceholder": "Teessoo daldalaa kee galchi",
+    "accountNumber": "Lakkoofsa Herregaa",
+    "accountNumberPlaceholder": "Lakkoofsa herregaa kee galchi",
+    "profilePicture": "Suuraa Fuula",
+    "submit": "Galmaa’i",
+    "loading": "Galmeessa jira...",
+    "success": "Daldalaan milkaa’inaan galmaa’e!",
+    "failed": "Galmeen hin milkoofne. Mee irra deebi'ii yaali.",
+    "loginPrompt": "Daldalaa galmeessuuf dura akka adminitti seeni.",
+     "ERROR_REQUIRED_FIELDS": "Mee dirqama ta’an guutaa osoo hin ergin dura guutaa."
+  },
+
+  "light": "Ifaa",
+  "dark": "Dukkanaa"
+}

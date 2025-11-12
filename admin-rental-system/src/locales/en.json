@@ -1,0 +1,44 @@
+{
+  "login": "Login",
+  "register": "Register",
+  "email": "Email",
+  "password": "Password",
+  "name": "Name",
+  "submit": "Submit",
+  "dashboard": {
+    "title": "Admin Dashboard",
+    "welcome": "Welcome, Admin!",
+    "statsTitle": "System Overview",
+    "activeMerchants": "Active Merchants",
+    "registeredUsers": "Registered Users",
+    "totalRevenue": "Total Revenue",
+    "manageMerchants": "Manage Merchants"
+  },
+  "merchant": {
+    "title": "Merchant Registration",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email address",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
+    "businessName": "Business Name",
+    "businessNamePlaceholder": "Enter your business name",
+    "address": "Address",
+    "addressPlaceholder": "Enter your business address",
+    "accountNumber": "Account Number",
+    "accountNumberPlaceholder": "Enter your account number",
+    "profilePicture": "Profile Picture",
+    "submit": "Register",
+    "loading": "Registering...",
+    "success": "Merchant registered successfully!",
+    "failed": "Registration failed. Please try again.",
+    "loginPrompt": "Please log in as an admin before registering a merchant.",
+    "ERROR_REQUIRED_FIELDS": "Please fill in all required fields before submitting."
+  },
+
+  "light": "Light",
+  "dark": "Dark"
+}

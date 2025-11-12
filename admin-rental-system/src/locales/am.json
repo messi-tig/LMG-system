@@ -1,0 +1,44 @@
+{
+  "login": "ግባ",
+  "register": "መዝግብ",
+  "email": "ኢሜይል",
+  "password": "የይለፍ ቃል",
+  "name": "ስም",
+  "submit": "አስገባ",
+  "dashboard": {
+    "title": "አስተዳደር ዳሽቦርድ",
+    "welcome": "እንኳን ደህና መጡ, አስተዳደር!",
+    "statsTitle": "የስርዓት ገጽታ",
+    "activeMerchants": "ንብረት ንግዶች",
+    "registeredUsers": "የተመዘገቡ ተጠቃሚዎች",
+    "totalRevenue": "አጠቃላይ ገቢ",
+    "manageMerchants": "ንግዶችን አስተዳድር"
+  },
+  "merchant": {
+    "title": "የነጋዴ መመዝገቢያ",
+    "fullName": "ሙሉ ስም",
+    "fullNamePlaceholder": "ሙሉ ስምዎን ያስገቡ",
+    "email": "ኢሜይል",
+    "emailPlaceholder": "ኢሜይል አድራሻዎን ያስገቡ",
+    "password": "የይለፍ ቃል",
+    "passwordPlaceholder": "የይለፍ ቃልዎን ያስገቡ",
+    "phone": "ስልክ ቁጥር",
+    "phonePlaceholder": "ስልክ ቁጥርዎን ያስገቡ",
+    "businessName": "የንግድ ስም",
+    "businessNamePlaceholder": "የንግድ ስምዎን ያስገቡ",
+    "address": "አድራሻ",
+    "addressPlaceholder": "የንግድ አድራሻዎን ያስገቡ",
+    "accountNumber": "የመለያ ቁጥር",
+    "accountNumberPlaceholder": "የመለያ ቁጥርዎን ያስገቡ",
+    "profilePicture": "የመገለጫ ፎቶ",
+    "submit": "መመዝገብ",
+    "loading": "በመመዝገብ ላይ...",
+    "success": "ነጋዴው በተሳካ ሁኔታ ተመዝግቧል!",
+    "failed": "መመዝገብ አልተሳካም። እባክዎን ደግመው ይሞክሩ።",
+    "loginPrompt": "ነጋዴ ከመመዝገብዎ በፊት እባክዎን እንደ አስተዳዳሪ ይግቡ።",
+    "ERROR_REQUIRED_FIELDS": "እባክዎን ሁሉንም አስፈላጊ መስኮች ከመላክዎ በፊት ይሙሉ።"
+  },
+
+  "light": "ብርሃን",
+  "dark": "ጨለማ"
+}

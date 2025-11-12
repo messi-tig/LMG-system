@@ -1,0 +1,5 @@
+{
+  "ERROR_REQUIRED_FIELDS": "All asset details (including price unit, prices, and number of properties) and at least one image are mandatory.",
+  "ERROR_IMAGE_REQUIRED": "At least one asset image is required.",
+  "SUCCESS_PROPERTY_CREATED": "Property created successfully."
+}
