@@ -90,7 +90,7 @@ async function login() {
   loading.value = true
   error.value = ''
   try {
-    const { data } = await axios.post('https://lmgtech-4.onrender.com//merchant/login', {
+    const { data } = await axios.post('https://lmgtech-4.onrender.com/merchant/login', {
       email: email.value,
       password: password.value
     })
