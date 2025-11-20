@@ -130,7 +130,7 @@ const submitProperty = async () => {
     // ✅ MATCH backend field name exactly: 'images'
     images.value.forEach((img) => formData.append("images", img));
 
-    const response = await axios.post("http://localhost:3000/merchant/properties", formData, {
+    const response = await axios.post("https://lmgtech-4.onrender.com//merchant/properties", formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
