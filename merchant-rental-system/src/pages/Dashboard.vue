@@ -49,7 +49,7 @@ onMounted(async () => {
 
   try {
     const token = localStorage.getItem('merchantToken')
-    const { data } = await axios.get('https://lmgtech-4.onrender.com//merchant/operations/properties', {
+    const { data } = await axios.get('https://lmgtech-4.onrender.com/merchant/operations/properties', {
       headers: { Authorization: `Bearer ${token}` }
     })
 
