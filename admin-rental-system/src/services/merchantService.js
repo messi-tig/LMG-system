@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "http://localhost:3000/merchant";
+const API_URL = "https://lmgtech-4.onrender.com/merchant";
 
 export const registerMerchant = async (payload) => {
   const token = localStorage.getItem('token');
