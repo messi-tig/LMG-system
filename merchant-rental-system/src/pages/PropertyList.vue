@@ -134,7 +134,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/merchant'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://lmgtech-4.onrender.com/merchant'
 const CLOUD_BASE_URL = import.meta.env.VITE_CLOUD_URL || 'https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload'
 const token = localStorage.getItem('merchantToken')
 const lang = 'en' // can also make reactive or dynamic from i18n
