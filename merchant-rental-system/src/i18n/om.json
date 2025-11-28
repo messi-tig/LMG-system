@@ -1,0 +1,111 @@
+{
+  "app": {
+    "title": "Portalii Daldalaa"
+  },
+  "login": {
+    "login": "Seeni",
+    "email": "Imeeli",
+    "password": "Jecha Darbaa",
+    "loggingIn": "Seensa jiru...",
+    "invalidCredentials": "Maaloo sirrii miti"
+  },
+  "navbar": {
+    "logout": "Bahi"
+  },
+  "sidebar":{
+  "home": "Mana",
+  "properties": "Qabeenyaa",
+  "addProperty": "Qabeenya Haaraa Dabaluu",
+  "bookings": "Fuula Galmee",
+  "profile": "Profil"
+},
+
+  "addProperty": {
+    "title": "Qabeenya Haaraa Dabaluu",
+    "propertyName": "Maqaa Qabeenya",
+    "description": "Ibsa",
+    "category": "Gosa",
+    "categoryOptions": {
+      "eventSupply": "Qabeenya Taajjabdootaa",
+      "constructionEquipment": "Meeshaalee Ijaarsa",
+      "healthcareMedical": "Tajaajila Fayyaa / Medikaal",
+      "other": "Kan Biroo"
+    },
+    "hourlyPrice": "Gatii Sa’aatii",
+    "dailyPrice": "Gatii Guyyaa",
+    "weeklyPrice": "Gatii Torban",
+    "monthlyPrice": "Gatii Ji’a",
+    "yearlyPrice": "Gatii Waggaa",
+    "numberOfProperties": "Lakkoofsa Qabeenya",
+    "uploadImages": "Suuraa Olkaa'uu",
+    "createButton": "Qabeenya Uumi",
+    "submitting": "Guddifamaa...",
+    "successMessage": "Qabeenyi milkaa’inaan uumame!",
+    "errorMessage": "Qabeenya uumuun hin danda’amu."
+  },
+  "bookings": {
+    "title": "Booqiings",
+    "loading": "Booqiings ni fe'amaa jira",
+    "noBookings": "Booqiings hin argamne",
+    "noPaymentProof": "Ragaa kaffaltii hin jiru",
+    "columns": {
+      "index": "Lak.",
+      "propertyName": "Maqaa Qabeenya",
+      "customer": "Miseensa",
+      "email": "Imeel",
+      "phone": "Bilbila",
+      "dates": "Guyyoota",
+      "totalPrice": "Gatii Waliigalaa",
+      "numberOfProperties": "Lakkiinsa Qabeenya",
+      "status": "Haala",
+      "paymentProof": "Ragaa Kaffaltii"
+    },
+    "statusOptions": {
+      "pending": "Eegamaa",
+      "confirmed": "Mirkanaa'e",
+      "completed": "Xumurame",
+      "cancelled": "Haquame"
+    },
+    "actions": {
+      "details": "Bal'ina",
+      "delete": "Haqu",
+       "close": "Cufi",
+      "updateStatusSuccess": "Haala booqiingii milkaa'inaan fooyya'e",
+      "updateStatusError": "Haala booqiingii fooyyessuu hin dandeenye",
+      "deleteConfirm": "Dhuguma booqiing kana haquu barbaadda?",
+      "deleteSuccess": "Booqiing haquameera",
+      "deleteError": "Booqiing haquun hin milkaa'in"
+    },
+    "error": "Yeroo booqiingii argamu rakkinni uumame"
+  },
+  "dashboard": {
+    "welcome": "Baga nagaan dhuftan, {name}",
+    "overview": "Kun gabaasa keessan dha",
+    "totalProperties": "Qabeenya Guutuu",
+    "activeRentals": "Kireeffamtoota Aktiiva",
+    "revenueThisMonth": "Galii Ji'a Kana"
+  },
+  "properties": {
+    "title": "🏢 Qabeenya Koo",
+    "loading": "Qabeenya ni fe’amaa jira...",
+    "noProperties": "Qabeenya hin argamne.",
+    "category": "Kategory",
+    "status": "Haala",
+    "dailyPrice": "Gatii Guyyaa",
+    "viewDetails": "👁 Bal’ina ilaali",
+    "prices": "Gatiiwwan",
+    "hourly": "Sa’aa",
+    "daily": "Guyyaa",
+    "weekly": "Torbee",
+    "monthly": "Ji’a",
+    "yearly": "Waggaa",
+    "edit": "✏️ Gulaali",
+    "delete": "🗑 Haqi",
+    "close": "Cufi",
+    "save": "💾 Olkaa’i",
+    "cancel": "Haqi",
+    "available": "Argamaa",
+    "rented": "Kireeffame",
+    "maintenance": "Tajaajilaa jalatti"
+  }
+}

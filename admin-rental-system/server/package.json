@@ -1,0 +1,19 @@
+{
+  "name": "admin-port-api",
+  "version": "1.0.0",
+  "description": "Simple API for Admin Portal (merchant registration)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
