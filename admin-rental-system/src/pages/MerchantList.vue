@@ -132,22 +132,21 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input v-model="form.fullName" type="text" :placeholder="t('merchant.fullNamePlaceholder')" class="form-input" required />
             <input v-model="form.email" type="email" :placeholder="t('merchant.emailPlaceholder')" class="form-input" required />
-            <div class="relative">
+
+            <!-- Password Field with Show/Hide -->
+            <div class="password-wrapper">
               <input
                 v-model="form.password"
                 :type="showPassword ? 'text' : 'password'"
                 :placeholder="t('merchant.passwordPlaceholder')"
-                class="form-input pr-12 w-full"
+                class="form-input"
                 :required="!showEditMerchant"
               />
-              <button
-                type="button"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-                @click="togglePassword"
-              >
+              <button type="button" @click="togglePassword" class="password-toggle-btn">
                 {{ showPassword ? t('actions.hide') : t('actions.show') }}
               </button>
             </div>
+
             <input v-model="form.phonenumber" type="text" :placeholder="t('merchant.phonePlaceholder')" class="form-input" required />
             <input v-model="form.businessName" type="text" :placeholder="t('merchant.businessNamePlaceholder')" class="form-input" required />
             <input v-model="form.address" type="text" :placeholder="t('merchant.addressPlaceholder')" class="form-input" required />
@@ -248,7 +247,6 @@ const closeModal = () => {
   modalAction.value = ''
 }
 
-// ADD / EDIT MODAL HANDLERS
 const openAddModal = () => {
   showAddMerchant.value = true
   showEditMerchant.value = false
@@ -271,7 +269,6 @@ const resetForm = () => {
   isError.value = false
 }
 
-// ADD / EDIT SUBMIT
 const submitAddEditMerchant = async () => {
   loading.value = true
   message.value = ''
@@ -281,31 +278,19 @@ const submitAddEditMerchant = async () => {
     const formData = new FormData()
     formData.append('fullName', form.value.fullName)
     formData.append('email', form.value.email)
-    if (!showEditMerchant.value && form.value.password) {
-      formData.append('password', form.value.password)
-    }
+    if (!showEditMerchant.value && form.value.password) formData.append('password', form.value.password)
     formData.append('phonenumber', form.value.phonenumber)
     formData.append('acountnumber', form.value.acountnumber)
     formData.append('businessName', form.value.businessName)
     formData.append('address', form.value.address)
-    if (form.value.profilePictureFile) {
-      formData.append('profilePictureFile', form.value.profilePictureFile)
-    }
+    if (form.value.profilePictureFile) formData.append('profilePictureFile', form.value.profilePictureFile)
 
     const token = localStorage.getItem('adminToken')
     let response
     if (showEditMerchant.value) {
-      response = await axios.put(
-        `https://lmgtech-4.onrender.com/merchant/${form.value._id}`,
-        formData,
-        { headers: { Authorization: `Bearer ${token}`, 'accept-language': locale.value } }
-      )
+      response = await axios.put(`https://lmgtech-4.onrender.com/merchant/${form.value._id}`, formData, { headers: { Authorization: `Bearer ${token}`, 'accept-language': locale.value } })
     } else {
-      response = await axios.post(
-        'https://lmgtech-4.onrender.com/merchant/register',
-        formData,
-        { headers: { Authorization: `Bearer ${token}`, 'accept-language': locale.value } }
-      )
+      response = await axios.post('https://lmgtech-4.onrender.com/merchant/register', formData, { headers: { Authorization: `Bearer ${token}`, 'accept-language': locale.value } })
     }
 
     message.value = response.data.message || (showEditMerchant.value ? t('merchant.updated') : t('merchant.success'))
@@ -320,21 +305,16 @@ const submitAddEditMerchant = async () => {
   }
 }
 
-// TOGGLE / DELETE
 const confirmAction = async () => {
   if (!merchantToActOn.value) return
   const token = localStorage.getItem('adminToken')
   try {
     if (modalAction.value === 'delete') {
-      await axios.delete(`https://lmgtech-4.onrender.com/merchant/${merchantToActOn.value._id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      await axios.delete(`https://lmgtech-4.onrender.com/merchant/${merchantToActOn.value._id}`, { headers: { Authorization: `Bearer ${token}` } })
       merchants.value = merchants.value.filter(m => m._id !== merchantToActOn.value._id)
     } else if (modalAction.value === 'toggle') {
       const updated = { isActive: !merchantToActOn.value.isActive }
-      await axios.put(`https://lmgtech-4.onrender.com/merchant/${merchantToActOn.value._id}`, updated, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      await axios.put(`https://lmgtech-4.onrender.com/merchant/${merchantToActOn.value._id}`, updated, { headers: { Authorization: `Bearer ${token}` } })
       merchantToActOn.value.isActive = !merchantToActOn.value.isActive
     }
   } catch (err) {
@@ -359,8 +339,7 @@ onMounted(fetchMerchants)
 
 <style scoped>
 /* Loader */
-.loader,
-.loader-spinner {
+.loader, .loader-spinner {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #3b82f6;
   border-radius: 50%;
@@ -369,10 +348,7 @@ onMounted(fetchMerchants)
   animation: spin 1s linear infinite;
   display: inline-block;
 }
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 /* Form Inputs */
 .form-input {
@@ -416,233 +392,72 @@ table {
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
+thead { background-color: #608add; }
+thead th { padding: 0.75rem 1rem; font-weight: 600; text-align: left; color: #374151; }
+tbody td { padding: 0.5rem 0.75rem; color: #4b5563; border-bottom: 1px solid #e5e7eb; }
+tbody tr:hover { background-color: #70a8e0; }
 
-thead {
-  background-color: #f3f4f6;
-}
-thead th {
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  text-align: left;
-  color: #374151;
-}
-
-tbody td {
-  padding: 0.75rem 1rem;
-  color: #4b5563;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-tbody tr:hover {
-  background-color: #f9fafb;
-}
-
+/* Status Badges */
 td span {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
+  text-align: center;
 }
+td span.bg-green-100 { background-color: #40de8d; color: #065f46; border: 1px solid #10b981; }
+td span.bg-red-100 { background-color: #e93030; color: #991b1b; border: 1px solid #ef4444; }
 
-/* Active / Suspended Status */
-td span.bg-green-100 {
-  background-color: #d1fae5;
-  color: #065f46;
-  border: 1px solid #10b981;
-}
-td span.bg-red-100 {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border: 1px solid #ef4444;
-}
-
-/* Action Buttons in Table */
 td > button {
-  padding: 0.35rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: 0.375rem;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 td > button:hover {
   transform: scale(1.05);
 }
-td > button.bg-red-500 {
-  background-color: #ef4444;
-  color: white;
-}
-td > button.bg-red-500:hover {
-  background-color: #dc2626;
-}
-td > button.bg-yellow-500 {
-  background-color: #facc15;
-  color: #1f2937;
-}
-td > button.bg-yellow-500:hover {
-  background-color: #eab308;
-}
-td > button.bg-green-500 {
-  background-color: #10b981;
-  color: white;
-}
-td > button.bg-green-500:hover {
-  background-color: #059669;
-}
-td > button.bg-gradient-to-r {
-  background-image: linear-gradient(to right, #3b82f6, #2563eb);
-  color: white;
-}
 
-/* Add/Edit Modal */
+/* Modals */
 .fixed.inset-0.flex.items-center.justify-center {
-  backdrop-filter: blur(4px);
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); overflow: hidden;
 }
-
 .bg-white.dark\:bg-slate-900 {
-  border-radius: 0.75rem;
-  padding: 2rem;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  position: relative;
-  transition: all 0.3s ease-in-out;
+  width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; overflow-x: hidden;
+  border-radius: 0.75rem; padding: 1.5rem; position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.3s ease-in-out;
 }
 
-/* Close Button */
-.bg-white.dark\:bg-slate-900 > button {
-  background: none;
-  font-size: 1.25rem;
-  font-weight: bold;
-  transition: color 0.2s;
+/* Password Field */
+.password-wrapper { display: flex; align-items: center; position: relative; width: 100%; }
+.password-wrapper .form-input { flex: 1; padding-right: 3rem; }
+.password-toggle-btn {
+  position: absolute; right: 0.75rem; background: none; border: none; cursor: pointer;
+  font-size: 0.85rem; color: #6b7280; height: 100%; display: flex; align-items: center; transition: color 0.2s;
 }
-.bg-white.dark\:bg-slate-900 > button:hover {
-  color: #2563eb;
-}
-
-/* Form Header */
-h2 {
-  font-size: 1.75rem;
-}
-p {
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-/* Password Toggle Button */
-input + button {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-input + button:hover {
-  color: #2563eb;
-}
+.password-toggle-btn:hover { color: #2563eb; }
 
 /* Submit Button */
-.btn-submit {
-  background-color: #3b82f6;
-  color: white;
-  font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  width: 100%;
-  transition: all 0.2s ease-in-out;
-}
-.btn-submit:hover {
-  background-color: #2563eb;
-  transform: translateY(-1px) scale(1.02);
-}
+.btn-submit { background-color: #3b82f6; color: white; font-weight: 600; padding: 0.6rem 1.2rem; border-radius: 0.5rem; font-size: 1rem; width: 100%; transition: all 0.2s ease-in-out; }
+.btn-submit:hover { background-color: #2563eb; transform: translateY(-1px) scale(1.02); }
 
-/* Message Feedback */
-p.text-center.mt-2.font-semibold {
-  font-size: 0.9rem;
-}
-
-/* Responsive Grid */
-.grid.grid-cols-1.md\:grid-cols-2.gap-4 {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr;
-}
-@media(min-width: 768px) {
-  .grid.grid-cols-1.md\:grid-cols-2.gap-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Loader Spinner inside Button */
-.loader-spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #3b82f6;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-  margin-right: 0.5rem;
-}
-
-/* ------------------ Mobile Responsive ------------------ */
-
-/* Table cards for small screens */
+/* Responsive Table Cards */
 @media (max-width: 768px) {
-  table thead {
-    display: none;
-  }
-
-  table tbody tr {
-    display: block;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    background-color: white;
-  }
-
-  table tbody td {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  table tbody td:last-child {
-    border-bottom: 0;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  td > button {
-    flex: 1 1 45%;
-    margin-bottom: 0.25rem;
-  }
+  table thead { display: none; }
+  table tbody tr { display: block; border: 1px solid #e5e7eb; border-radius: 0.5rem; margin-bottom: 1rem; padding: 0.5rem; background-color: white; }
+  table tbody td { display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
+  table tbody td:last-child { border-bottom: 0; flex-wrap: wrap; gap: 0.25rem; justify-content: center; }
+  td > button { flex: 1 1 45%; margin-bottom: 0.25rem; }
 }
 
-/* Modals full screen on mobile */
+/* Fullscreen Modals on Mobile */
 @media (max-width: 640px) {
-  .bg-white.dark\:bg-slate-900 {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 0 !important;
-    padding: 1rem !important;
-    overflow-y: auto;
-  }
-
-  /* Stack grid inputs vertically */
-  .grid.grid-cols-1.md\:grid-cols-2.gap-4 {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Add Merchant button full width */
-  .mt-6.text-center > button {
-    width: 100%;
-    font-size: 1rem;
-    padding: 0.75rem;
-  }
+  .bg-white.dark\:bg-slate-900 { width: 95% !important; max-height: 90vh !important; border-radius: 0.5rem !important; padding: 1rem !important; overflow-y: auto; overflow-x: hidden; }
+  .grid.grid-cols-1.md\:grid-cols-2.gap-4 { grid-template-columns: 1fr !important; }
+  input, button { max-width: 100%; }
+  .mt-6.text-center > button { width: 100%; font-size: 1rem; padding: 0.75rem; }
 }
 </style>

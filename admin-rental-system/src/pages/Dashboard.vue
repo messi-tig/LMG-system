@@ -105,8 +105,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.dashboard {
+<style scoped>.dashboard {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   max-width: 1200px;
   margin: 0 auto;
@@ -114,7 +113,7 @@ onMounted(() => {
   color: #111;
 }
 
-/* Stats Grid */
+/* ===== Stats Grid ===== */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -146,12 +145,17 @@ onMounted(() => {
   word-wrap: break-word;
 }
 
-/* Recent Customers */
+/* ===== Recent Customers ===== */
 .recent-customers {
   background: white;
   padding: 16px;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.recent-customers h3 {
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
 .customer-item {
@@ -160,6 +164,7 @@ onMounted(() => {
   padding: 10px 0;
   border-bottom: 1px solid #e5e7eb;
   align-items: center;
+  transition: 0.2s;
 }
 .customer-item:hover {
   background: #f3f4f6;
@@ -183,13 +188,18 @@ onMounted(() => {
   font-size: 1rem;
 }
 
+.customer-name {
+  font-weight: 500;
+}
+
 .customer-time {
   font-size: 13px;
   color: #6b7280;
 }
 
-/* Responsive adjustments */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
+  /* Stats Grid adjusts to 2 columns */
   .stats-grid {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
@@ -200,9 +210,8 @@ onMounted(() => {
   .stat-value {
     font-size: 22px;
   }
-  .recent-customers {
-    padding: 14px;
-  }
+
+  /* Recent Customers stacked layout */
   .customer-item {
     flex-direction: column;
     align-items: flex-start;
@@ -212,13 +221,22 @@ onMounted(() => {
     font-size: 12px;
   }
 }
+
 @media (max-width: 480px) {
+  /* Stats Grid single column on small phones */
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+  .stat-card {
+    padding: 12px;
+  }
   .stat-value {
     font-size: 20px;
   }
+  .recent-customers {
+    padding: 12px;
+  }
 }
+
 </style>

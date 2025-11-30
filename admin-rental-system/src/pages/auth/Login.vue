@@ -99,38 +99,45 @@ export default {
   },
 }
 </script>
-
 <style scoped>
-/* Container */
+/* ==============================
+   GLOBAL CONTAINER
+================================= */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f0f2f5;
   padding: 15px;
   box-sizing: border-box;
+  background: #f0f2f5;
 }
 
-/* Card */
+/* ==============================
+   CARD
+================================= */
 .auth-card {
   background: #fff;
   padding: 25px 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
+  border-radius: 12px;
   text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 /* Title */
 .auth-card h2 {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   font-size: 22px;
+  font-weight: 700;
   color: #333;
 }
 
-/* Inputs */
+/* ==============================
+   INPUT FIELDS
+================================= */
 .auth-card input {
   width: 100%;
   padding: 12px;
@@ -139,18 +146,28 @@ export default {
   border: 1px solid #ccc;
   font-size: 16px;
   box-sizing: border-box;
+  transition: 0.2s;
 }
 
-/* Password Field */
+.auth-card input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+  background: #fff;
+}
+
+/* ==============================
+   PASSWORD FIELD WITH TOGGLE
+================================= */
 .password-field {
+  position: relative;
   display: flex;
   align-items: center;
-  position: relative;
+  margin: 8px 0;
 }
 
 .password-field input {
   flex: 1;
-  padding-right: 40px;
+  padding-right: 42px;
 }
 
 .toggle-password {
@@ -158,11 +175,20 @@ export default {
   right: 10px;
   background: none;
   border: none;
-  cursor: pointer;
   font-size: 18px;
+  cursor: pointer;
+  color: #555;
+  padding: 5px;
+  transition: 0.2s;
 }
 
-/* Submit Button */
+.toggle-password:hover {
+  opacity: 0.8;
+}
+
+/* ==============================
+   SUBMIT BUTTON
+================================= */
 .auth-card button[type='submit'] {
   width: 100%;
   padding: 12px;
@@ -170,11 +196,11 @@ export default {
   border: none;
   border-radius: 8px;
   background-color: #007bff;
-  color: #fff;
+  color: white;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  font-size: 16px;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-in-out;
 }
 
 .auth-card button[type='submit']:hover:not(:disabled) {
@@ -186,10 +212,12 @@ export default {
   cursor: not-allowed;
 }
 
-/* Spinner */
+/* ==============================
+   LOADING SPINNER
+================================= */
 .loading-spinner {
   border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid #fff;
+  border-top: 3px solid white;
   border-radius: 50%;
   width: 18px;
   height: 18px;
@@ -204,30 +232,43 @@ export default {
   }
 }
 
-/* Switch Link */
+/* ==============================
+   SWITCH LINK & ERROR
+================================= */
 .switch-link {
   margin-top: 15px;
-  cursor: pointer;
-  color: #007bff;
   font-size: 14px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.switch-link span {
+  font-weight: bold;
 }
 
 .switch-link:hover {
   text-decoration: underline;
 }
 
-/* Error */
 .error {
   color: red;
   margin-top: 10px;
   font-weight: bold;
   font-size: 14px;
+  text-align: center;
 }
 
-/* Responsive Adjustments */
+/* ==============================
+   RESPONSIVE DESIGN
+================================= */
 @media (max-width: 480px) {
   .auth-card {
     padding: 20px 15px;
+    max-width: 90%;
+  }
+
+  .auth-card h2 {
+    font-size: 20px;
   }
 
   .auth-card input,
@@ -242,6 +283,20 @@ export default {
 
   .switch-link {
     font-size: 12px;
+  }
+
+  .error {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 26px 20px;
+  }
+
+  .auth-card h2 {
+    font-size: 22px;
   }
 }
 </style>

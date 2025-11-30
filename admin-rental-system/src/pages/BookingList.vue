@@ -265,49 +265,253 @@ export default {
   mounted() { this.fetchBookings(); },
 };
 </script>
-<style scoped>
-.wrap { max-width: 1100px; margin: 24px auto; padding: 16px; font-family: Arial, sans-serif; }
-.heading { font-size: 22px; font-weight: 700; margin-bottom: 14px; }
-.controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.input { padding: 8px 10px; border-radius: 6px; border: 1px solid #ccc; min-width: 140px; flex: 1 1 auto; }
-.input-small { padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; }
-.btn { padding: 8px 12px; background: #2b7cff; color: #fff; border-radius: 6px; cursor: pointer; flex: 0 0 auto; }
-.btn-danger { padding: 6px 10px; background: #e74c3c; color: #fff; border-radius: 6px; cursor: pointer; }
-.btn:hover, .btn-danger:hover { opacity: 0.95; }
+<style scoped>.wrap {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
 
-.meta { margin: 10px 0; color: #666; }
-.error { color: #b00020; margin: 10px 0; font-weight: 600; }
+.heading {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
 
-.table-wrap { overflow-x: auto; border: 1px solid #e6e6e6; border-radius: 6px; background: #fff; }
-.table { width: 100%; border-collapse: collapse; min-width: 900px; }
-.table th, .table td { padding: 10px; text-align: left; border-bottom: 1px solid #f0f0f0; }
-.prop { display: flex; gap: 10px; align-items: center; }
-.thumb { width: 60px; height: 48px; object-fit: cover; border-radius: 6px; }
-.prop-name { font-weight: 600; }
-.small { font-size: 12px; color: #666; }
-.actions-cell { display: flex; gap: 6px; flex-wrap: wrap; }
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
 
-.mobile-cards { display: none; }
-.card { border: 1px solid #e6e6e6; border-radius: 6px; padding: 12px; margin-bottom: 12px; background: #fff; }
-.card-header { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
-.card-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
-.card-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 140px;
+  flex: 1 1 auto;
+}
 
+.input-small {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 8px 12px;
+  background: #2b7cff;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.btn-danger {
+  padding: 6px 10px;
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn:hover, .btn-danger:hover {
+  opacity: 0.95;
+}
+
+.meta {
+  margin: 10px 0;
+  color: #666;
+}
+
+.error {
+  color: #b00020;
+  margin: 10px 0;
+  font-weight: 600;
+}
+
+/* Table styles */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.prop {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.thumb {
+  width: 60px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.prop-name {
+  font-weight: 600;
+}
+
+.small {
+  font-size: 12px;
+  color: #666;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Mobile card view */
+.mobile-cards {
+  display: none;
+}
+
+.card {
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.card-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+/* Modal */
 .modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 12px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 12px;
 }
-.modal { background: #fff; padding: 20px; border-radius: 8px; width: 400px; max-width: 100%; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-.modal h3 { margin-top: 0; margin-bottom: 16px; font-size: 18px; }
-.form-group { display: flex; flex-direction: column; margin-bottom: 12px; }
-.date-group { display: flex; gap: 6px; flex-wrap: wrap; }
-.form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
 
-@media (max-width: 768px) {
-  .desktop-table { display: none; }
-  .mobile-cards { display: block; }
-  .controls { flex-direction: column; }
-  .input, .input-small, .btn { width: 100%; }
-  .card-header { flex-direction: column; align-items: flex-start; }
+.modal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 100%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.date-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* ======================
+   MOBILE RESPONSIVENESS
+====================== */
+@media (max-width: 768px) {
+  .desktop-table {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: block;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input, .input-small {
+    width: 100%;
+  }
+
+  /* Buttons in card actions on mobile */
+  .card-actions button {
+    flex: 0 0 auto;       /* prevent oversize */
+    max-width: 140px;     /* reasonable width */
+    padding: 6px 8px;     /* smaller padding */
+    font-size: 13px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-body {
+    font-size: 13px;
+  }
+
+  .modal {
+    width: 95%;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .card-actions button {
+    flex: 1 1 100%;       /* stack buttons vertically */
+    max-width: 100%;
+  }
+}
+
 </style>

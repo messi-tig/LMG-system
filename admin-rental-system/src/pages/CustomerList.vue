@@ -229,8 +229,7 @@ const submitEdit = async () => {
 onMounted(fetchCustomers)
 </script>
 
-<style scoped>
-/* General Container */
+<style scoped>/* General Container */
 .container {
   max-width: 1200px;
   margin: auto;
@@ -350,7 +349,24 @@ onMounted(fetchCustomers)
 @media (max-width: 768px) {
   .desktop-table { display: none; }
   .mobile-cards { display: block; }
-  .btn { width: 100%; }
+
+  /* Buttons in card actions on tablets */
+  .card-actions button {
+    flex: 1 1 auto;      /* grow naturally */
+    max-width: 140px;    /* prevent oversize */
+    padding: 6px 8px;    /* smaller padding for mobile */
+    font-size: 13px;
+  }
+
   .card-header { flex-direction: column; align-items: flex-start; }
 }
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .card-actions button {
+    flex: 1 1 100%;      /* full width stacked buttons */
+    max-width: 100%;
+  }
+}
+
 </style>

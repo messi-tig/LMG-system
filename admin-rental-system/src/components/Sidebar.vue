@@ -1,7 +1,9 @@
 <template>
-  <aside :class="['sidebar', { closed: !isOpen }]">
+  <aside :class="['sidebar', { 'sidebar-closed': !isOpen, mobile: isMobile }]">
     <div class="sidebar-header">
       <h2>{{ $t('dashboard.title') }}</h2>
+      <!-- Optional: close button for mobile -->
+      <button v-if="isMobile" class="close-btn" @click="$emit('toggle-sidebar')">✕</button>
     </div>
 
     <nav class="menu">
@@ -13,12 +15,11 @@
         <span class="icon">📦</span>
         <span>{{ $t('merchantList.title') }}</span>
       </router-link>
-
       <router-link to="/customer-list" class="menu-item">
         <span class="icon">👥</span>
         <span>{{ $t('customer.listTitle') }}</span>
       </router-link>
-         <router-link to="/booking-list" class="menu-item">
+      <router-link to="/booking-list" class="menu-item">
         <span class="icon">📅</span>
         <span>{{ $t('bookingList.title') }}</span>
       </router-link>
@@ -27,105 +28,97 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
 const props = defineProps({
   isOpen: { type: Boolean, default: true }
 });
+
+const isMobile = ref(window.innerWidth <= 768);
+
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+onMounted(() => window.addEventListener('resize', handleResize));
+onUnmounted(() => window.removeEventListener('resize', handleResize));
 </script>
 
 <style scoped>
 .sidebar {
-  z-index: 50 !important;
-  position: relative;
-}
-
-.sidebar {
-  width: 250px;
+  width: 220px;
   background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   min-height: 100vh;
-  padding: 1.5rem 1rem;
-  display: flex;
-  flex-direction: column;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 30;
 }
 
-/* Sidebar closed state */
-.closed {
+/* Sidebar closed */
+.sidebar-closed {
   width: 0;
   padding: 0;
   overflow: hidden;
 }
 
-.sidebar-header {
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+/* Mobile slide-in sidebar */
+.mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 50;
+  border-radius: 0;
+}
+
+.mobile.sidebar-closed {
+  transform: translateX(-100%);
+}
+
+.mobile:not(.sidebar-closed) {
+  transform: translateX(0);
+}
+
+/* Menu list */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li {
   margin-bottom: 1rem;
-  text-align: center;
 }
-
-.sidebar-header h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #374151;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
+a {
   text-decoration: none;
-  color: #374151;
-  font-size: 0.96rem;
-  font-weight: 500;
-  transition: all 0.25s ease;
+  color: #6b79a0;
+  display: block;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  transition: 0.2s;
 }
-
-.icon {
-  font-size: 1.2rem;
-  width: 22px;
-  text-align: center;
-}
-
-.menu-item:hover {
-  background: #f3f4f6;
-  transform: translateX(4px);
-}
-
-.menu-item.router-link-active {
-  background: #e0f2fe;
-  color: #0284c7;
-  font-weight: 600;
-  transform: translateX(4px);
-}
-
-/* DARK MODE */
-.dark .sidebar {
-  background: #1f2937;
-  border-color: #374151;
-}
-
-.dark .sidebar-header h2 {
-  color: #f3f4f6;
-}
-
-.dark .menu-item {
-  color: #e5e7eb;
-}
-
-.dark .menu-item:hover {
-  background: #374151;
-}
-
-.dark .menu-item.router-link-active {
-  background: #0ea5e9;
+a.active, a:hover {
+  background-color: #7184b7;
   color: white;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 220px;
+    padding: 1rem;
+    box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  }
+  li {
+    margin-bottom: 1rem;
+  }
+  a {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
 }
 </style>

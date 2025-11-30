@@ -1,134 +1,205 @@
 <template>
-  <nav class="navbar">
-    <!-- Hamburger -->
-    <button class="hamburger" @click="$emit('toggle-sidebar')">☰</button>
+  <header class="navbar">
+    <!-- Sidebar toggle -->
+    <button class="hamburger-btn" @click="$emit('toggle-sidebar')">☰</button>
 
-    <!-- Center title -->
-    <h1 class="title">{{ $t('dashboard.title') }}</h1>
+    <!-- Logo -->
+    <h1 class="logo">{{ $t('dashboard.title') }}</h1>
 
-    <!-- Right menu -->
-    <div class="menu-wrapper">
-      <button class="menu-btn" @click="menuOpen = !menuOpen">⋮</button>
+    <!-- Controls -->
+    <div class="controls" ref="dropdownRef">
+      <button class="dropdown-btn" @click.stop="dropdownOpen = !dropdownOpen">⋮</button>
 
-      <div v-if="menuOpen" class="dropdown">
-        <LanguageSwitcher />
-
-        <ThemeSwitcher 
-          :theme="theme" 
-          @update-theme="$emit('update-theme', $event)" 
-        />
-
-        <button @click="logout" class="logout-btn">{{ $t('actions.logout') }}</button>
+      <div v-if="dropdownOpen" class="dropdown-menu">
+        <div class="dropdown-item">
+          <label>Language:</label>
+          <select v-model="locale" @change="onLocaleChange">
+            <option value="en">EN</option>
+            <option value="am">AM</option>
+            <option value="om">OM</option>
+          </select>
+        </div>
+        <div class="dropdown-item">
+          <label>Theme:</label>
+          <select v-model="theme" @change="onThemeChange">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+        <button class="logout-btn" @click="handleLogout">{{ $t('actions.logout') }}</button>
       </div>
     </div>
-  </nav>
+  </header>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
-import LanguageSwitcher from './LanguageSelector.vue';
-import ThemeSwitcher from './ThemeSwitcher.vue';
+import { useI18n } from 'vue-i18n';
 
-const props = defineProps({ theme: String });
-defineEmits(['toggle-sidebar', 'update-theme']);
-
+const emit = defineEmits(['toggle-sidebar']);
 const router = useRouter();
-const menuOpen = ref(false);
+const { locale } = useI18n();
+const theme = ref(localStorage.getItem('theme') || 'light');
+const dropdownOpen = ref(false);
+const dropdownRef = ref(null);
 
-function logout() {
-  localStorage.removeItem('adminToken');
-  router.push('/login');
+onMounted(() => document.addEventListener('click', handleClickOutside));
+onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
+
+function handleClickOutside(event) {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    dropdownOpen.value = false;
+  }
 }
-</script>
 
-<style scoped>
+function handleLogout() {
+  localStorage.removeItem('adminToken'); // or merchantToken if using merchant
+  router.replace('/login');
+}
+
+function onLocaleChange() {
+  localStorage.setItem('locale', locale.value);
+}
+
+function onThemeChange() {
+  document.documentElement.className = theme.value;
+  localStorage.setItem('theme', theme.value);
+}
+</script><style scoped>
 .navbar {
-  height: 54px;
-  background: #eef2ff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
-  position: relative;
-  border-bottom: 1px solid #d0d7ff;
+  background-color: #1e40af;
+  color: white;
+  padding: 0.6rem 1rem;
+  padding-right: 2rem; /* NEW: prevent button from touching screen edge */
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0 0 10px 10px;
 }
 
-.hamburger {
-  font-size: 24px;
+.hamburger-btn {
+  font-size: 1.5rem;
   background: none;
   border: none;
+  color: white;
   cursor: pointer;
 }
 
-.title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-align: center;
+.logo {
   flex: 1;
-  margin: 0 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.6rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.menu-wrapper {
+.controls {
   position: relative;
+  margin-right: 1rem; /* NEW: pushes button left */
 }
 
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 22px;
+.dropdown-btn {
+  background: #717376;
+  color: white;
+  padding: 0.35rem 0.7rem;
+  border-radius: 50%;
+  font-size: 1.3rem;
   cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.dropdown-btn:hover {
+  background: #1d4ed8;
 }
 
-.dropdown {
+/* ----------- UPDATED DROPDOWN POSITION (15% LEFT) ----------- */
+:deep(.dropdown-menu) {
   position: absolute;
-  right: 0;
-  top: 40px;
+  right: -15%; /* Shift left by responsive 15% */
+  top: 120%;
   background: white;
-  width: 160px;
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #1f2937;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-width: 220px;
+  z-index: 60;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  z-index: 50;
+  gap: 0.5rem;
+}
+/* ----------------------------------------------------------- */
+
+.dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-item label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+}
+
+.dropdown-item select {
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.85rem;
 }
 
 .logout-btn {
   width: 100%;
-  background: #f5f5f5;
+  background-color: #10b981;
   border: none;
-  padding: 8px;
-  border-radius: 8px;
+  color: white;
+  padding: 0.45rem;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.logout-btn:hover {
+  background-color: #059669;
 }
 
-/* MOBILE STYLING */
-@media (max-width: 640px) {
-  .navbar {
-    padding: 0 10px;
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .logo {
+    font-size: 1.2rem;
+    text-align: left;
   }
-  .title {
-    font-size: 1rem;
+
+  .controls {
+    margin-right: 0.5rem; /* NEW: smaller spacing on mobile */
   }
-  .hamburger {
-    font-size: 22px;
+
+  :deep(.dropdown-menu) {
+    min-width: 180px;
+    padding: 0.5rem;
+    right: -25%; /* More left on mobile for better fit */
   }
-  .menu-btn {
-    font-size: 20px;
+
+  .dropdown-item select {
+    font-size: 0.8rem;
   }
-  .dropdown {
-    width: 140px;
-    top: 36px;
-    padding: 8px;
-  }
+
   .logout-btn {
     font-size: 0.85rem;
+    padding: 0.35rem;
   }
 }
 </style>
