@@ -213,7 +213,7 @@ const submitEdit = async () => {
   try {
     const { id, fullName, email, phonenumber, address } = editCustomerData.value
     const updated = { fullName, email, phonenumber, address }
-    await axios.patch(`https://lmgtech-4.onrender.com/customer/${id}`, updated, {
+    await axios.patch(`https://lmgtech-4.onrender.com/admin/customers/${id}`, updated, {
       headers: { Authorization: `Bearer ${token}` },
     })
     const index = customers.value.findIndex(c => c.id === id)
