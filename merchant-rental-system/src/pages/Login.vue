@@ -16,7 +16,12 @@
       <form @submit.prevent="login" class="login-form">
         <div class="form-group">
           <label>{{ $t('login.email') }}</label>
-          <input v-model="email" type="email" :placeholder="$t('login.email')" required />
+          <input
+            v-model="email"
+            type="email"
+            :placeholder="$t('login.email')"
+            required
+          />
         </div>
 
         <div class="form-group password-group">
@@ -28,7 +33,9 @@
               :placeholder="$t('login.password')"
               required
             />
-            <button type="button" @click="togglePassword">{{ showPassword ? '🙈' : '👁' }}</button>
+            <button type="button" @click="togglePassword">
+              {{ showPassword ? '🙈' : '👁' }}
+            </button>
           </div>
         </div>
 
@@ -94,10 +101,10 @@ async function login() {
   loading.value = true
   error.value = ''
   try {
-    const { data } = await axios.post('https://lmgtech-4.onrender.com/merchant/login', {
-      email: email.value,
-      password: password.value
-    })
+    const { data } = await axios.post(
+      'https://lmgtech-4.onrender.com/merchant/login',
+      { email: email.value, password: password.value }
+    )
     localStorage.setItem('merchantToken', data.token)
     localStorage.setItem('merchant', JSON.stringify(data.merchant))
     router.push('/')
@@ -122,7 +129,7 @@ async function login() {
   position: relative;
 }
 
-/* Top-right combined controls */
+/* Top-right controls */
 .top-controls {
   position: absolute;
   top: 1rem;
@@ -184,15 +191,16 @@ async function login() {
 
 .form-group input {
   width: 100%;
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
   border-radius: 10px;
   border: 1px solid #d1d5db;
+  box-sizing: border-box;
 }
 
-.form-group input:focus {
-  border-color: #2563eb;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+.form-group input::placeholder {
+  font-size: 0.95rem;
+  color: #9ca3af;
 }
 
 /* Password wrapper */
@@ -251,7 +259,7 @@ button[type="submit"]:hover {
   border: 1px solid #4b5563;
 }
 
-/* Responsive */
+/* Mobile responsiveness */
 @media (max-width: 480px) {
   .login-card {
     padding: 1.5rem;
@@ -261,8 +269,22 @@ button[type="submit"]:hover {
     font-size: 1.5rem;
   }
 
-  .top-menu {
-    right: 0;
+  .form-group input {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .form-group input::placeholder {
+    font-size: 0.9rem;
+  }
+
+  .password-wrapper button {
+    font-size: 1rem;
+  }
+
+  button[type="submit"] {
+    font-size: 0.95rem;
+    padding: 0.7rem;
   }
 }
 </style>
