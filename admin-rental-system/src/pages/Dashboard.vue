@@ -36,34 +36,6 @@
         <p class="stat-label">Total Bookings</p>
         <p class="stat-value">{{ totalBookings }}</p>
       </div>
-
-      <!-- Booking statuses -->
-     <!-- Booking Statuses -->
-<div class="stat-card">
-  <p class="stat-label">Decline Bookings</p>
-  <p class="stat-value">{{ bookingStatuses.decline || 0 }}</p>
-</div>
-
-<div class="stat-card">
-  <p class="stat-label">Accepted Bookings</p>
-  <p class="stat-value">{{ bookingStatuses.accepted || 0 }}</p>
-</div>
-
-<div class="stat-card">
-  <p class="stat-label">Pending Bookings</p>
-  <p class="stat-value">{{ bookingStatuses.pending || 0 }}</p>
-</div>
-
-<div class="stat-card">
-  <p class="stat-label">Confirmed Bookings</p>
-  <p class="stat-value">{{ bookingStatuses.confirmed || 0 }}</p>
-</div>
-
-<div class="stat-card">
-  <p class="stat-label">Cancelled Bookings</p>
-  <p class="stat-value">{{ bookingStatuses.cancelled || 0 }}</p>
-</div>
-
     </div>
   </div>
 </template>
