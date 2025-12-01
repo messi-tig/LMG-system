@@ -190,7 +190,7 @@ const confirmAction = async () => {
       alert('Customer deleted!')
     } else if (confirmActionType.value === 'toggle') {
       const updatedStatus = { isActive: !selectedCustomer.value.isActive }
-      await axios.patch(`https://lmgtech-4.onrender.com/customer/${selectedCustomer.value.id}`, updatedStatus, {
+      await axios.patch(`https://lmgtech-4.onrender.com/customer/admin/customers/${selectedCustomer.value.id}`, updatedStatus, {
         headers: { Authorization: `Bearer ${token}` },
       })
       selectedCustomer.value.isActive = !selectedCustomer.value.isActive
@@ -213,7 +213,7 @@ const submitEdit = async () => {
   try {
     const { id, fullName, email, phonenumber, address } = editCustomerData.value
     const updated = { fullName, email, phonenumber, address }
-    await axios.patch(`https://lmgtech-4.onrender.com/admin/customers/${id}`, updated, {
+    await axios.patch(`https://lmgtech-4.onrender.com/customer/admin/customers/${id}`, updated, {
       headers: { Authorization: `Bearer ${token}` },
     })
     const index = customers.value.findIndex(c => c.id === id)
