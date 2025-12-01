@@ -1,242 +1,193 @@
 <template>
   <div class="dashboard">
+    <h2 class="title">Admin Dashboard</h2>
 
-    <!-- ======= Stats Cards ======= -->
     <div class="stats-grid">
-      <div v-for="stat in stats" :key="stat.label" class="stat-card">
-        <p class="stat-label">{{ stat.label }}</p>
-        <p class="stat-value">{{ stat.value }}</p>
+      <!-- Merchants -->
+      <div class="stat-card">
+        <p class="stat-label">Total Merchants</p>
+        <p class="stat-value">{{ totalMerchants }}</p>
       </div>
-    </div>
+      <div class="stat-card">
+        <p class="stat-label">Active Merchants</p>
+        <p class="stat-value">{{ activeMerchants }}</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Suspended Merchants</p>
+        <p class="stat-value">{{ suspendedMerchants }}</p>
+      </div>
 
-    <!-- ======= Recent Customers ======= -->
-    <div class="recent-customers">
-      <h3>Recent Customers</h3>
-      <ul>
-        <li
-          v-for="customer in recentCustomers"
-          :key="customer._id"
-          class="customer-item"
-        >
-          <div class="customer-info">
-            <div
-              class="customer-initial"
-              :style="{ backgroundColor: customer.color }"
-            >
-              {{ customer.initial }}
-            </div>
-            <span class="customer-name">{{ customer.fullName }}</span>
-          </div>
-          <span class="customer-time">
-            {{ formatDate(customer.createdAt) }}
-          </span>
-        </li>
-      </ul>
-    </div>
+      <!-- Customers -->
+      <div class="stat-card">
+        <p class="stat-label">Total Customers</p>
+        <p class="stat-value">{{ totalCustomers }}</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Active Customers</p>
+        <p class="stat-value">{{ activeCustomers }}</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Suspended Customers</p>
+        <p class="stat-value">{{ suspendedCustomers }}</p>
+      </div>
 
+      <!-- Bookings -->
+      <div class="stat-card">
+        <p class="stat-label">Total Bookings</p>
+        <p class="stat-value">{{ totalBookings }}</p>
+      </div>
+
+      <!-- Booking statuses -->
+     <!-- Booking Statuses -->
+<div class="stat-card">
+  <p class="stat-label">Decline Bookings</p>
+  <p class="stat-value">{{ bookingStatuses.decline || 0 }}</p>
+</div>
+
+<div class="stat-card">
+  <p class="stat-label">Accepted Bookings</p>
+  <p class="stat-value">{{ bookingStatuses.accepted || 0 }}</p>
+</div>
+
+<div class="stat-card">
+  <p class="stat-label">Pending Bookings</p>
+  <p class="stat-value">{{ bookingStatuses.pending || 0 }}</p>
+</div>
+
+<div class="stat-card">
+  <p class="stat-label">Confirmed Bookings</p>
+  <p class="stat-value">{{ bookingStatuses.confirmed || 0 }}</p>
+</div>
+
+<div class="stat-card">
+  <p class="stat-label">Cancelled Bookings</p>
+  <p class="stat-value">{{ bookingStatuses.cancelled || 0 }}</p>
+</div>
+
+    </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue";
-import { api } from "@/utils/Api";   // admin API instance
-import adminApi from "@/utils/booking"; // customer API instance
+<script>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-// ===================== STATE =====================
-const stats = ref([
-  { label: "Total Customers", value: 0 },
-  { label: "Total Merchants", value: 0 },
-  { label: "Total Bookings", value: 0 },
-  { label: "Bookings Today", value: 0 },
-  { label: "Revenue", value: "$0" },
-]);
+export default {
+  setup() {
+    const totalMerchants = ref(0);
+    const activeMerchants = ref(0);
+    const suspendedMerchants = ref(0);
 
-const recentCustomers = ref([]);
+    const totalCustomers = ref(0);
+    const activeCustomers = ref(0);
+    const suspendedCustomers = ref(0);
 
-// ===================== FETCH STATS =====================
-const fetchStats = async () => {
-  try {
-    const res = await api.get("/stats");
-    stats.value = [
-      { label: "Total Customers", value: res.data.totalCustomers },
-      { label: "Total Merchants", value: res.data.totalMerchants },
-      { label: "Total Bookings", value: res.data.totalBookings },
-      { label: "Bookings Today", value: res.data.bookingsToday },
-      { label: "Revenue", value: `$${res.data.revenue}` },
-    ];
-  } catch (err) {
-    console.error("Error fetching stats:", err);
+    const totalBookings = ref(0);
+    const bookingStatuses = ref({});
+
+    // Fixed statuses to display
+    const bookingStatusList = ['decline', 'accepted', 'pending', 'confirmed', 'cancelled'];
+
+    onMounted(async () => {
+      try {
+        const token = localStorage.getItem('adminToken') || localStorage.getItem('managerToken');
+
+        // -----------------------------
+        // 1️⃣ Merchants
+        // -----------------------------
+        const merchantsRes = await axios.get('https://lmgtech-4.onrender.com/merchant/all', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const merchants = merchantsRes.data || [];
+        totalMerchants.value = merchants.length;
+        activeMerchants.value = merchants.filter(m => m.isActive).length;
+        suspendedMerchants.value = merchants.filter(m => !m.isActive).length;
+
+        // -----------------------------
+        // 2️⃣ Customers
+        // -----------------------------
+        const customersRes = await axios.get('https://lmgtech-4.onrender.com/customer/all', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const customers = customersRes.data?.customers || [];
+        totalCustomers.value = customers.length;
+        activeCustomers.value = customers.filter(c => c.isActive).length;
+        suspendedCustomers.value = customers.filter(c => !c.isActive).length;
+
+        // -----------------------------
+        // 3️⃣ Bookings
+        // -----------------------------
+        const bookingsRes = await axios.get('https://lmgtech-4.onrender.com/customer/bookings/all', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const bookings = bookingsRes.data?.bookings || [];
+        totalBookings.value = bookings.length;
+
+        // Count bookings by each fixed status
+        const statusCounts = { decline: 0, accepted: 0, pending: 0, confirmed: 0, cancelled: 0 };
+        bookings.forEach(b => {
+          const status = b.status?.toLowerCase();
+          if (status && statusCounts.hasOwnProperty(status)) {
+            statusCounts[status]++;
+          }
+        });
+        bookingStatuses.value = statusCounts;
+
+      } catch (error) {
+        console.error('Dashboard Fetch Error:', error.response?.data || error);
+      }
+    });
+
+    return {
+      totalMerchants,
+      activeMerchants,
+      suspendedMerchants,
+      totalCustomers,
+      activeCustomers,
+      suspendedCustomers,
+      totalBookings,
+      bookingStatuses,
+      bookingStatusList
+    };
+  },
+  filters: {
+    capitalize: str => str.charAt(0).toUpperCase() + str.slice(1)
   }
 };
-
-// ===================== FETCH RECENT CUSTOMERS =====================
-const fetchRecentCustomers = async () => {
-  try {
-    const res = await adminApi.get("/customers/recent");
-
-    recentCustomers.value = res.data.customers.map((c) => ({
-      ...c,
-      initial: c.fullName[0].toUpperCase(),
-      color: getRandomColor(),
-    }));
-  } catch (err) {
-    console.error("Error fetching recent customers:", err);
-  }
-};
-
-// Avatar color generator
-const getRandomColor = () => {
-  const colors = ["#4f46e5", "#10b981", "#8b5cf6", "#ec4899", "#f97316"];
-  return colors[Math.floor(Math.random() * colors.length)];
-};
-
-// Format date
-const formatDate = (dateStr) => {
-  const date = new Date(dateStr);
-  return (
-    date.toLocaleDateString() + " — " + date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  );
-};
-
-// Load on mount
-onMounted(() => {
-  fetchStats();
-  fetchRecentCustomers();
-});
 </script>
 
-<style scoped>.dashboard {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
+<style scoped>
+.dashboard {
   padding: 20px;
-  color: #111;
 }
 
-/* ===== Stats Grid ===== */
+.title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
 }
 
 .stat-card {
-  background: white;
-  padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: 0.3s;
-}
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .stat-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #6b7280;
+  font-size: 16px;
+  color: #444;
 }
 
 .stat-value {
-  font-size: 26px;
+  font-size: 32px;
   font-weight: bold;
-  word-wrap: break-word;
+  margin-top: 8px;
 }
-
-/* ===== Recent Customers ===== */
-.recent-customers {
-  background: white;
-  padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.recent-customers h3 {
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-
-.customer-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #e5e7eb;
-  align-items: center;
-  transition: 0.2s;
-}
-.customer-item:hover {
-  background: #f3f4f6;
-}
-
-.customer-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.customer-initial {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.customer-name {
-  font-weight: 500;
-}
-
-.customer-time {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  /* Stats Grid adjusts to 2 columns */
-  .stats-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .stat-card {
-    padding: 14px;
-  }
-  .stat-value {
-    font-size: 22px;
-  }
-
-  /* Recent Customers stacked layout */
-  .customer-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  .customer-time {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  /* Stats Grid single column on small phones */
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .stat-card {
-    padding: 12px;
-  }
-  .stat-value {
-    font-size: 20px;
-  }
-  .recent-customers {
-    padding: 12px;
-  }
-}
-
 </style>
