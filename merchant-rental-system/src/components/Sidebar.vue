@@ -5,7 +5,6 @@
       <li><router-link to="/properties" active-class="active">🏢 Properties</router-link></li>
       <li><router-link to="/properties/add" active-class="active">➕ Add Property</router-link></li>
       <li><router-link to="/bookings" active-class="active">📖 Bookings</router-link></li>
-      <li><router-link to="/profile" active-class="active">👤 Profile</router-link></li>
     </ul>
   </aside>
 </template>

@@ -1,16 +1,17 @@
 <template>
   <header class="navbar">
     <!-- Sidebar toggle -->
-    <button class="hamburger-btn" @click="$emit('toggle-sidebar')">☰</button>
+    <button class="hamburger-btn" @click="$emit('toggle-sidebar')" aria-label="Toggle Sidebar">☰</button>
 
     <!-- Logo -->
     <h1 class="logo">Welcome to LMG Tech</h1>
 
     <!-- Controls -->
     <div class="controls" ref="dropdownRef">
-      <button class="dropdown-btn" @click.stop="dropdownOpen = !dropdownOpen">⋮</button>
+      <button class="dropdown-btn" @click.stop="dropdownOpen = !dropdownOpen" aria-label="Open Menu">⋮</button>
 
       <div v-if="dropdownOpen" class="dropdown-menu">
+        <!-- Language selector -->
         <div class="dropdown-item">
           <label>Language:</label>
           <select v-model="locale" @change="onLocaleChange">
@@ -19,6 +20,8 @@
             <option value="om">OM</option>
           </select>
         </div>
+
+        <!-- Theme selector -->
         <div class="dropdown-item">
           <label>Theme:</label>
           <select v-model="theme" @change="onThemeChange">
@@ -26,6 +29,13 @@
             <option value="dark">Dark</option>
           </select>
         </div>
+
+        <!-- Profile link -->
+        <div class="dropdown-item">
+          <router-link to="/profile" active-class="active">👤</router-link>
+        </div>
+
+        <!-- Logout button -->
         <button class="logout-btn" @click="handleLogout">Logout</button>
       </div>
     </div>
@@ -44,8 +54,17 @@ const theme = ref(localStorage.getItem('theme') || 'light');
 const dropdownOpen = ref(false);
 const dropdownRef = ref(null);
 
-onMounted(() => document.addEventListener('click', handleClickOutside));
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
+onMounted(() => {
+  // Apply saved theme
+  document.documentElement.className = theme.value;
+
+  // Click outside to close dropdown
+  document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 
 function handleClickOutside(event) {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
@@ -156,6 +175,21 @@ function onThemeChange() {
   border-radius: 6px;
   border: 1px solid #cbd5e1;
   font-size: 0.85rem;
+}
+
+.profile-link {
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 500;
+  width: 100%;
+  display: block;
+  padding: 0.25rem 0;
+  transition: background 0.2s;
+}
+
+.profile-link:hover {
+  background-color: #f3f4f6;
+  border-radius: 6px;
 }
 
 .logout-btn {
