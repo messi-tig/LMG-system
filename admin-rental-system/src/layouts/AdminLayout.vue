@@ -37,7 +37,9 @@ const isMobile = ref(window.innerWidth <= 768);
 
 function handleResize() {
   isMobile.value = window.innerWidth <= 768;
-  if (!isMobile.value) isSidebarOpen.value = true; // auto open sidebar on desktop
+
+  // auto open sidebar on desktop
+  if (!isMobile.value) isSidebarOpen.value = true;
 }
 
 onMounted(() => {
@@ -51,79 +53,57 @@ watch(theme, (newTheme) => {
 </script>
 
 <style scoped>
-/* Wrapper padding for navbar */
+/* Navbar spacing */
 .wrapper {
   padding-top: 64px;
 }
 
-/* Layout flex */
+/* Layout */
 .layout {
   display: flex;
-  position: relative;
 }
 
-/* Sidebar */
-.sidebar {
-  z-index: 45; /* above main content */
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-/* Sidebar mobile behavior */
-@media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 220px;
-    transform: translateX(-100%);
-    background: #fff;
-    z-index: 45;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
-  }
-  .sidebar[isOpen] {
-    transform: translateX(0);
-  }
-}
-
-/* Main content */
+/* Main content area */
 .content {
   flex: 1;
   padding: 20px;
+  margin-left: 220px; /* Push content beside sidebar */
   height: calc(100vh - 64px);
-  transition: filter 0.3s;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
 }
 
-/* Dim main content when sidebar open on mobile */
-@media (max-width: 768px) {
-  .content {
-    flex: 1;
+/* Remove left margin when collapsed (desktop only) */
+@media (min-width: 769px) {
+  .content.collapsed {
+    margin-left: 0;
   }
 }
 
-/* Overlay */
+/* Mobile: content always full width */
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+  }
+}
+
+/* Mobile dim overlay */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
-  z-index: 40; /* below sidebar but above main content */
+  background-color: rgba(0,0,0,0.45);
+  z-index: 40;
 }
 
-/* Ensure navbar stays on top */
+/* Needed for fixed navbar */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 50; /* highest */
-}
-
-/* Content scroll */
-.content {
-  overflow-y: auto;
+  z-index: 50;
 }
 </style>

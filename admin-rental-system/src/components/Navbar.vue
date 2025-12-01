@@ -66,140 +66,162 @@ function onThemeChange() {
   document.documentElement.className = theme.value;
   localStorage.setItem('theme', theme.value);
 }
-</script><style scoped>
+</script>
+<style scoped>
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  width: 100%;
+  height: 60px;
+
   background-color: #1e40af;
   color: white;
-  padding: 0.6rem 1rem;
-  padding-right: 2rem; /* NEW: prevent button from touching screen edge */
-  font-family: 'Segoe UI', sans-serif;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  position: sticky;
+
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  position: fixed;
   top: 0;
-  z-index: 50;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  border-radius: 0 0 10px 10px;
+  left: 0;
+
+  z-index: 100;
+
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  overflow: hidden; /* 🚫 Prevent any scrolling */
 }
 
+/* Hamburger */
 .hamburger-btn {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   background: none;
   border: none;
   color: white;
   cursor: pointer;
 }
 
+/* Logo text */
 .logo {
   flex: 1;
   text-align: center;
+
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* Controls wrapper */
 .controls {
   position: relative;
-  margin-right: 1rem; /* NEW: pushes button left */
+  display: flex;
+  align-items: center;
 }
 
+/* 3-dot button */
 .dropdown-btn {
-  background: #717376;
+  background: #4b5563;
   color: white;
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem 0.55rem;
   border-radius: 50%;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   cursor: pointer;
   border: none;
   display: flex;
-  align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  align-items: center;
 }
 .dropdown-btn:hover {
   background: #1d4ed8;
 }
 
-/* ----------- UPDATED DROPDOWN POSITION (15% LEFT) ----------- */
+/* Dropdown menu */
 :deep(.dropdown-menu) {
   position: absolute;
-  right: -15%; /* Shift left by responsive 15% */
-  top: 120%;
+  top: 110%;
+  right: 0; /* ⭐ PERFECT POSITION for all screens */
+
   background: white;
   color: #1f2937;
+
+  padding: 0.75rem;
+  min-width: 200px;
+
   border-radius: 10px;
-  padding: 0.75rem 1rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  min-width: 220px;
-  z-index: 60;
+
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-/* ----------------------------------------------------------- */
+  gap: 0.7rem;
 
+  z-index: 200;
+}
+
+/* Dropdown items */
 .dropdown-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.dropdown-item label {
-  font-weight: 500;
-  font-size: 0.9rem;
-  margin-right: 0.5rem;
-}
-
 .dropdown-item select {
   padding: 0.3rem 0.5rem;
   border-radius: 6px;
   border: 1px solid #cbd5e1;
-  font-size: 0.85rem;
 }
 
+/* Logout button */
 .logout-btn {
   width: 100%;
+  padding: 0.45rem;
+
   background-color: #10b981;
   border: none;
   color: white;
-  padding: 0.45rem;
+
   border-radius: 6px;
-  cursor: pointer;
   font-weight: 600;
-  transition: background 0.2s ease;
+  cursor: pointer;
+
+  transition: background 0.2s;
 }
 .logout-btn:hover {
   background-color: #059669;
 }
 
-/* Mobile adjustments */
+/* 📱 Mobile Optimization */
 @media (max-width: 768px) {
-  .logo {
-    font-size: 1.2rem;
-    text-align: left;
+  .navbar {
+    height: 55px;
+    padding: 0 0.7rem;
   }
 
-  .controls {
-    margin-right: 0.5rem; /* NEW: smaller spacing on mobile */
+  .logo {
+    font-size: 1.1rem;
+    text-align: left;
+    margin-left: 0.5rem;
   }
 
   :deep(.dropdown-menu) {
-    min-width: 180px;
+    right: -10px; /* ⭐ Keeps dropdown inside screen ALWAYS */
+    min-width: 170px;
     padding: 0.5rem;
-    right: -25%; /* More left on mobile for better fit */
   }
 
-  .dropdown-item select {
-    font-size: 0.8rem;
+  .dropdown-btn {
+    font-size: 1.15rem;
+    padding: 0.32rem 0.55rem;
   }
 
   .logout-btn {
     font-size: 0.85rem;
-    padding: 0.35rem;
+    padding: 0.4rem;
   }
 }
+
 </style>
