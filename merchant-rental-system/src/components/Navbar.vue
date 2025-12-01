@@ -8,7 +8,7 @@
 
     <!-- Controls -->
     <div class="controls" ref="dropdownRef">
-      <button class="dropdown-btn" @click.stop="dropdownOpen = !dropdownOpen" aria-label="Open Menu">⋮</button>
+      <button class="dropdown-btn" @click.stop="dropdownOpen = !dropdownOpen" aria-label="Open Menu">👤</button>
 
       <div v-if="dropdownOpen" class="dropdown-menu">
         <!-- Language selector -->
@@ -32,7 +32,7 @@
 
         <!-- Profile link -->
         <div class="dropdown-item">
-          <router-link to="/profile" active-class="active">👤</router-link>
+          <router-link to="/profile" active-class="active">profile</router-link>
         </div>
 
         <!-- Logout button -->
