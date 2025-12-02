@@ -107,5 +107,16 @@
     "available": "Argamaa",
     "rented": "Kireeffame",
     "maintenance": "Tajaajilaa jalatti"
+  },
+  "profile": {
+    "title": "Fayila Kooti",
+    "fullName": "Maqaa Guutuu",
+    "email": "Imeelii",
+    "phone": "Lakkoofsa Bilbila",
+    "accountNumber": "Lakkoofsa Herregaa",
+    "businessName": "Maqaa Daldalaa",
+    "address": "Teessoo",
+    "updateButton": "Fayila Haaromsuu"
   }
+
 }

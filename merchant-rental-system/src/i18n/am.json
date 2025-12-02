@@ -106,6 +106,15 @@
     "available": "አለ",
     "rented": "ተከራይ ላይ",
     "maintenance": "በእንክብካቤ ላይ"
+  },
+"profile": {
+    "title": "የመነሻ መረጃ",
+    "fullName": "ሙሉ ስም",
+    "email": "ኢሜል",
+    "phone": "ስልክ ቁጥር",
+    "accountNumber": "የባንክ መለያ ቁጥር",
+    "businessName": "የቢዝነስ ስም",
+    "address": "አድራሻ",
+    "updateButton": "መረጃ አሻሽል"
   }
-
 }

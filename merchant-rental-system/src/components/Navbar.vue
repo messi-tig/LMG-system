@@ -8,7 +8,15 @@
 
     <!-- Controls -->
     <div class="controls" ref="dropdownRef">
-      <button class="dropdown-btn" @click.stop="dropdownOpen = !dropdownOpen" aria-label="Open Menu">👤</button>
+      <button class="dropdown-btn" @click.stop="dropdownOpen = !dropdownOpen" aria-label="Open Menu">
+        <img
+          v-if="merchant.profilePicture"
+          :src="profileImageUrl"
+          class="profile-dropdown-image"
+          alt="Profile"
+        />
+        <span v-else class="default-avatar">👤</span>
+      </button>
 
       <div v-if="dropdownOpen" class="dropdown-menu">
         <!-- Language selector -->
@@ -32,7 +40,7 @@
 
         <!-- Profile link -->
         <div class="dropdown-item">
-          <router-link to="/profile" active-class="active">profile</router-link>
+          <router-link to="/profile" class="profile-link" active-class="active">Profile</router-link>
         </div>
 
         <!-- Logout button -->
@@ -43,9 +51,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { merchantStore } from '@/store/merchantStore';
 
 const emit = defineEmits(['toggle-sidebar']);
 const router = useRouter();
@@ -54,11 +63,21 @@ const theme = ref(localStorage.getItem('theme') || 'light');
 const dropdownOpen = ref(false);
 const dropdownRef = ref(null);
 
+// Reactive merchant profile
+const merchant = merchantStore;
+
+// Build profile image URL
+const profileImageUrl = computed(() => {
+  return merchant.profilePicture
+    ? `https://lmgtech-4.onrender.com/uploads/${merchant.profilePicture}`
+    : '';
+});
+
 onMounted(() => {
   // Apply saved theme
   document.documentElement.className = theme.value;
 
-  // Click outside to close dropdown
+  // Close dropdown when clicking outside
   document.addEventListener('click', handleClickOutside);
 });
 
@@ -79,13 +98,21 @@ function handleLogout() {
 }
 
 function onLocaleChange() {
-  localStorage.setItem('locale', locale.value);
+  localStorage.setItem('lang', locale.value);
 }
 
 function onThemeChange() {
   document.documentElement.className = theme.value;
   localStorage.setItem('theme', theme.value);
 }
+
+// Watch for profile updates to automatically update dropdown image
+watch(
+  () => merchant.profilePicture,
+  (newPic) => {
+    // Reactive update handled by computed property
+  }
+);
 </script>
 
 <style scoped>
@@ -128,19 +155,30 @@ function onThemeChange() {
 }
 
 .dropdown-btn {
-  background: #2563eb;
-  color: white;
-  padding: 0.35rem 0.7rem;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  font-size: 1.3rem;
-  cursor: pointer;
+  background: #2563eb;
   border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  overflow: hidden;
+  padding: 0;
 }
-.dropdown-btn:hover { background: #1d4ed8; }
+
+.profile-dropdown-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.default-avatar {
+  font-size: 1.3rem;
+  color: white;
+}
 
 .dropdown-menu {
   position: absolute;
@@ -203,7 +241,9 @@ function onThemeChange() {
   font-weight: 600;
   transition: background 0.2s ease;
 }
-.logout-btn:hover { background-color: #059669; }
+.logout-btn:hover {
+  background-color: #059669;
+}
 
 @media (max-width: 768px) {
   .logo { font-size: 1.2rem; text-align: left; }

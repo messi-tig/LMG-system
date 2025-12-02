@@ -110,6 +110,16 @@
     "available": "Available",
     "rented": "Rented",
     "maintenance": "Maintenance"
+  },
+  "profile": {
+    "title": "My Profile",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "accountNumber": "Account Number",
+    "businessName": "Business Name",
+    "address": "Address",
+    "updateButton": "Update Profile"
   }
 
 }
