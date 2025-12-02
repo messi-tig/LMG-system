@@ -8,18 +8,23 @@ export const merchantService = {
   },
 
   // 👤 Merchant Info
-  getProfile() {
-    return api.get('/merchant/profile');
+  getProfile(lang = 'en') {
+    return api.get(`/merchant/operations/profile?lang=${lang}`);
+  },
+
+  updateProfile(formData, lang = 'en') {
+    return api.patch(`/merchant/operations/profile?lang=${lang}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   },
 
   // 🏢 Properties CRUD
   getProperties(lang = 'en') {
-    // matches backend query parameter
     return api.get(`/merchant/operations/properties?lang=${lang}`);
   },
 
   addProperty(formData, token) {
-    return api.post('/merchant/operations/properties', formData, {
+    return api.post(`/merchant/operations/properties`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
@@ -52,7 +57,9 @@ export const merchantService = {
     return api.patch(
       `/merchant/operations/bookings/${id}/status`,
       { status },
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
   },
 
