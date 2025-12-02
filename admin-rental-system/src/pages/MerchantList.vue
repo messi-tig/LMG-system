@@ -288,7 +288,7 @@ const submitAddEditMerchant = async () => {
     const token = localStorage.getItem('adminToken')
     let response
     if (showEditMerchant.value) {
-      response = await axios.put(`https://lmgtech-4.onrender.com/merchant/${form.value._id}`, formData, { headers: { Authorization: `Bearer ${token}`, 'accept-language': locale.value } })
+      response = await axios.put(`https://lmgtech-4.onrender.com/merchant/admin/update/${form.value._id}`, formData, { headers: { Authorization: `Bearer ${token}`, 'accept-language': locale.value } })
     } else {
       response = await axios.post('https://lmgtech-4.onrender.com/merchant/register', formData, { headers: { Authorization: `Bearer ${token}`, 'accept-language': locale.value } })
     }
@@ -314,7 +314,7 @@ const confirmAction = async () => {
       merchants.value = merchants.value.filter(m => m._id !== merchantToActOn.value._id)
     } else if (modalAction.value === 'toggle') {
       const updated = { isActive: !merchantToActOn.value.isActive }
-      await axios.put(`https://lmgtech-4.onrender.com/merchant/${merchantToActOn.value._id}`, updated, { headers: { Authorization: `Bearer ${token}` } })
+      await axios.put(`https://lmgtech-4.onrender.com/merchant/admin/update/${merchantToActOn.value._id}`, updated, { headers: { Authorization: `Bearer ${token}` } })
       merchantToActOn.value.isActive = !merchantToActOn.value.isActive
     }
   } catch (err) {
